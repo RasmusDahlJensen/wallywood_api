@@ -55,6 +55,7 @@ class PosterController {
 	details = async (req, res) => {
 		// Destructure assignment af id. 
 		const { slug } = req.params || 0
+		console.log(slug);
 		// Eksekverer sequelize metode med attributter og where clause
 		const result = await PosterModel.findOne({
 			attributes: ['id', 'name', 'slug', 'description', 'image', 'width', 

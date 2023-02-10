@@ -1,9 +1,9 @@
 // Dependencies
-import UserModel from "../Models/user.model.js"
-import dotenv from 'dotenv'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-dotenv.config()
+import UserModel from "../Models/user.model.js";
+import dotenv from "dotenv";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+dotenv.config();
 
 /**
  * Authenticate Controller
@@ -13,41 +13,51 @@ class AuthenticateController {
 	// Login Metode
 	login = async (req, res) => {
 		// Destructure assignment af brugernavn og password fra request body
-		const { username, password } = req.body
+		const { username, password } = req.body;
 		// Hvis form data er sat
-		if(username && password) {
+		if (username && password) {
 			// Henter id og password fra bruger i user db
 			const userdata = await UserModel.findOne({
+<<<<<<< Updated upstream
 				attributes: ['id','password','firstname', 'email', 'lastname'],
 				where: { email: username }
 			})
+=======
+				attributes: ["id", "password"],
+				where: { email: username },
+			});
+>>>>>>> Stashed changes
 
 			// Sammenligner krypteret version af form password med db password
 			bcrypt.compare(password, userdata.password, (err, result) => {
-				if(result) {
+				if (result) {
 					// Generer json web token hvis bruger er godkendt
-					const token = jwt.sign(userdata.id,process.env.PRIVATE_KEY)
+					const token = jwt.sign(userdata.id, process.env.PRIVATE_KEY);
 					// Returnerer token til browser
+<<<<<<< Updated upstream
 					res.json({
 						firstname: userdata.firstname,
 						lastname: userdata.lastname,
 						email: userdata.email,
 						access_token: token
 					})
+=======
+					res.json({ access_token: token });
+>>>>>>> Stashed changes
 				} else {
 					// Sender status unauthorized
-					res.sendStatus(401)
+					res.sendStatus(401);
 				}
-			})
+			});
 		} else {
 			// Sender status forbidden
-			res.sendStatus(403)
+			res.sendStatus(403);
 		}
-	}
+	};
 
 	protected = async (req, res) => {
-		res.sendStatus(200)
-	}
+		res.sendStatus(200);
+	};
 }
 
-export default AuthenticateController
+export default AuthenticateController;
